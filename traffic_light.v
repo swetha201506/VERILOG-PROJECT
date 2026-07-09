@@ -1,24 +1,38 @@
-module tb_traffic_light;
-
-reg clk;
-reg rst;
-wire [2:0] light;
-
-traffic_light uut(
-    .clk(clk),
-    .rst(rst),
-    .light(light)
+module traffic_light(
+    input clk,
+    input rst,
+    output reg [2:0] light
 );
 
-always #5 clk = ~clk;
+reg [1:0] state;
 
-initial begin
-    clk = 0;
-    rst = 1;
+parameter RED = 2'b00,
+          GREEN = 2'b01,
+          YELLOW = 2'b10;
 
-    #10 rst = 0;
-
-    #50 $finish;
+always @(posedge clk or posedge rst)
+begin
+    if(rst)
+        state <= RED;
+    else
+    begin
+        case(state)
+            RED: state <= GREEN;
+            GREEN: state <= YELLOW;
+            YELLOW: state <= RED;
+            default: state <= RED;
+        endcase
+    end
 end
 
-endmoduletraffic_light.verilog code
+always @(*)
+begin
+    case(state)
+        RED: light = 3'b100;
+        GREEN: light = 3'b001;
+        YELLOW: light = 3'b010;
+        default: light = 3'b100;
+    endcase
+end
+
+endmodulelog code
