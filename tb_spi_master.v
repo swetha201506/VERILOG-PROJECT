@@ -39,5 +39,12 @@ initial begin
     $monitor("Time=%0t Data=%b MOSI=%b SCLK=%b",
               $time, data_in, mosi, sclk);
 end
+    initial begin
+
+    $dumpfile(".vcd");
+
+    $dumpvars(1);
+
+end
 
 endmodule
