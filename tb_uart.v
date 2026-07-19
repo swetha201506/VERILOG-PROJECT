@@ -42,5 +42,13 @@ initial begin
     $finish;
 
 end
+    initial begin
+
+    $dumpfile(".vcd");
+
+    $dumpvars(1);
+
+end
 
 endmodule
+
